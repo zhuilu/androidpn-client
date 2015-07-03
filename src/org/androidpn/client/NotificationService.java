@@ -20,6 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.androidpn.client.util.SysApplicationImpl;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -114,7 +116,8 @@ public class NotificationService extends Service {
 		Log.d(LOGTAG, "deviceId=" + deviceId);
 
 		xmppManager = new XmppManager(this);
-
+		SysApplicationImpl.getInstance().setXmppManager(xmppManager);
+		;
 		taskSubmitter.submit(new Runnable() {
 			public void run() {
 				NotificationService.this.start();
@@ -213,7 +216,7 @@ public class NotificationService extends Service {
 		telephonyManager.listen(phoneStateListener,
 				PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
 		IntentFilter filter = new IntentFilter();
-		// filter.addAction(android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION);
+		filter.addAction(android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
 		registerReceiver(connectivityReceiver, filter);
 	}
@@ -231,7 +234,12 @@ public class NotificationService extends Service {
 		registerConnectivityReceiver();
 		// Intent intent = getIntent();
 		// startService(intent);
-		xmppManager.connect();
+//		xmppManager.connect();
+
+	}
+
+	public void getAllEntries() {
+		xmppManager.getAllEntries();
 	}
 
 	private void stop() {
