@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 /**
  * This is an androidpn client demo application.
@@ -39,6 +40,7 @@ import android.widget.Button;
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class DemoAppActivity extends Activity {
+	ListView listview;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class DemoAppActivity extends Activity {
 
 		// Settings
 		Button okButton = (Button) findViewById(R.id.btn_settings);
+		listview = (ListView) findViewById(R.id.listview);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				// ServiceManager.viewNotificationSettings(DemoAppActivity.this);

@@ -585,9 +585,10 @@ public class HttpRequest {
 	 * @param string2
 	 * @param ybrDataRequestHandler
 	 */
-	public void loginTo(Handler handler, String string, String string2,
+	public void loginTo(Handler handler, String photo, String password,
 			YBRDataRequestHandler<JSONObject> ybrDataRequestHandler) {
-		// SysApplicationImpl.getInstance().getXmppManager().connect();
-		addGroup("newgroup");
+		System.out.println("loginTo");
+		SysApplicationImpl.getInstance().getXmppManager()
+				.connect(handler, photo, password, ybrDataRequestHandler);
 	}
 }

@@ -31,13 +31,13 @@ public final class NotificationReceiver extends BroadcastReceiver {
     private static final String LOGTAG = LogUtil
             .makeLogTag(NotificationReceiver.class);
 
-    //    private NotificationService notificationService;
+    //    private NotificationService connectionService;
 
     public NotificationReceiver() {
     }
 
-    //    public NotificationReceiver(NotificationService notificationService) {
-    //        this.notificationService = notificationService;
+    //    public NotificationReceiver(NotificationService connectionService) {
+    //        this.connectionService = connectionService;
     //    }
 
     @Override

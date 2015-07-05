@@ -41,7 +41,6 @@ public final class R {
 
 
 
-
     
          */
         public static final int app_icon_size=0x7f060009;
@@ -397,9 +396,10 @@ public final class R {
         public static final int textbox=0x7f020002;
     }
     public static final class id {
-        public static final int btn_settings=0x7f080006;
+        public static final int btn_settings=0x7f080007;
         public static final int framelayout=0x7f080000;
         public static final int goback=0x7f080002;
+        public static final int listview=0x7f080006;
         public static final int login_commit=0x7f080005;
         public static final int password=0x7f080004;
         public static final int photo=0x7f080003;
@@ -408,6 +408,7 @@ public final class R {
     public static final class layout {
         public static final int login=0x7f030000;
         public static final int main=0x7f030001;
+        public static final int show_item=0x7f030002;
     }
     public static final class raw {
         public static final int androidpn=0x7f040000;

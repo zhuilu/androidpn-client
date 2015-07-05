@@ -51,7 +51,6 @@ public class PersistentConnectionListener implements ConnectionListener {
 		try {
 			connection.connect();
 		} catch (XMPPException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		;

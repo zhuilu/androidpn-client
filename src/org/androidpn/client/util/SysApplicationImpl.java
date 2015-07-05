@@ -43,6 +43,8 @@ public class SysApplicationImpl extends Application {
 	 * 
 	 * @see android.app.Application#onCreate()
 	 */
+	
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();

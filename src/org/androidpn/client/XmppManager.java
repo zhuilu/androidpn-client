@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
+import org.androidpn.Request.YBRDataRequestHandler;
+import org.androidpn.client.util.Toaster;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.ConnectionListener;
@@ -38,6 +40,7 @@ import org.jivesoftware.smack.packet.IQ;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Registration;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -58,9 +61,9 @@ public class XmppManager {
 
 	private Context context;
 
-	private NotificationService.TaskSubmitter taskSubmitter;
+	private ConnectService.TaskSubmitter taskSubmitter;
 
-	private NotificationService.TaskTracker taskTracker;
+	private ConnectService.TaskTracker taskTracker;
 
 	private SharedPreferences sharedPrefs;
 
@@ -70,9 +73,9 @@ public class XmppManager {
 
 	private XMPPConnection connection;
 
-	private String username;
+	public String username;
 
-	private String password;
+	public String password;
 
 	private ConnectionListener connectionListener;
 
@@ -80,7 +83,7 @@ public class XmppManager {
 
 	private Handler handler;
 
-	private List<Runnable> taskList;
+	private List<TaskItem> taskList;
 
 	private boolean running = false;
 
@@ -88,11 +91,11 @@ public class XmppManager {
 
 	private Thread reconnection;
 
-	public XmppManager(NotificationService notificationService) {
-		context = notificationService;
-		taskSubmitter = notificationService.getTaskSubmitter();
-		taskTracker = notificationService.getTaskTracker();
-		sharedPrefs = notificationService.getSharedPreferences();
+	public XmppManager(ConnectService connectionService) {
+		context = connectionService;
+		taskSubmitter = connectionService.getTaskSubmitter();
+		taskTracker = connectionService.getTaskTracker();
+		sharedPrefs = connectionService.getSharedPreferences();
 
 		xmppHost = sharedPrefs.getString(Constants.XMPP_HOST, "localhost");
 		xmppPort = sharedPrefs.getInt(Constants.XMPP_PORT, 5222);
@@ -103,17 +106,21 @@ public class XmppManager {
 		notificationPacketListener = new NotificationPacketListener(this);
 
 		handler = new Handler();
-		taskList = new ArrayList<Runnable>();
+		taskList = new ArrayList<TaskItem>();
 		reconnection = new ReconnectionThread(this);
+		submitConnectTask();
 	}
 
 	public Context getContext() {
 		return context;
 	}
 
-	public void connect() {
+	public void connect(Handler handler, String photo, String password,
+			YBRDataRequestHandler<JSONObject> ybrDataRequestHandler) {
 		Log.d(LOGTAG, "connect()...");
-		addTask(new LoginTask());
+		this.username = photo;
+		this.password = password;
+		addTask(new LoginTask(handler, ybrDataRequestHandler));
 	}
 
 	public void disconnect() {
@@ -123,11 +130,13 @@ public class XmppManager {
 
 	public void terminatePersistentConnection() {
 		Log.d(LOGTAG, "terminatePersistentConnection()...");
-		Runnable runnable = new Runnable() {
+		TaskItem runnable = new TaskItem() {
 
 			final XmppManager xmppManager = XmppManager.this;
 
 			public void run() {
+				System.out.println("xmppManager.isConnected()="
+						+ xmppManager.isConnected());
 				if (xmppManager.isConnected()) {
 					Log.d(LOGTAG, "terminatePersistentConnection()... run()");
 					xmppManager.getConnection().removePacketListener(
@@ -186,7 +195,7 @@ public class XmppManager {
 		return handler;
 	}
 
-	public List<Runnable> getTaskList() {
+	public List<TaskItem> getTaskList() {
 		return taskList;
 	}
 
@@ -237,7 +246,7 @@ public class XmppManager {
 		addTask(new ConnectTask());
 	}
 
-	private void addTask(Runnable runnable) {
+	private void addTask(TaskItem runnable) {
 		Log.d(LOGTAG, "addTask(runnable)...");
 		taskTracker.increase();
 		synchronized (taskList) {
@@ -254,17 +263,17 @@ public class XmppManager {
 		Log.d(LOGTAG, "addTask(runnable)... done");
 	}
 
-	// private void removeAccount() {
-	// Editor editor = sharedPrefs.edit();
-	// editor.remove(Constants.XMPP_USERNAME);
-	// editor.remove(Constants.XMPP_PASSWORD);
-	// editor.commit();
-	// }
+	private void removeAccount() {
+		Editor editor = sharedPrefs.edit();
+		editor.remove(Constants.XMPP_USERNAME);
+		editor.remove(Constants.XMPP_PASSWORD);
+		editor.commit();
+	}
 
 	/**
 	 * A runnable task to connect the server.
 	 */
-	private class ConnectTask implements Runnable {
+	private class ConnectTask extends TaskItem {
 
 		final XmppManager xmppManager;
 
@@ -394,11 +403,12 @@ public class XmppManager {
 	/**
 	 * A runnable task to log into the server.
 	 */
-	private class LoginTask implements Runnable {
+	private class LoginTask extends TaskItem {
 
 		final XmppManager xmppManager;
 
-		private LoginTask() {
+		public <T> LoginTask(Handler handler, YBRDataRequestHandler<T> listener) {
+			super(handler, listener);
 			this.xmppManager = XmppManager.this;
 		}
 
@@ -412,8 +422,11 @@ public class XmppManager {
 					xmppManager.getConnection().login(
 							xmppManager.getUsername(),
 							xmppManager.getPassword(), XMPP_RESOURCE_NAME);
-					Log.d(LOGTAG, "Loggedn in successfully");
-
+					Log.d(LOGTAG, "Login in success");
+					mHandler.obtainMessage(Constants.Login_flag,
+							Constants.Login_flag_sueecess, 0).sendToTarget();
+					Toaster.getInstance().displayToast("login success");
+					System.out.println("login success");
 					// connection listener
 					if (xmppManager.getConnectionListener() != null) {
 						xmppManager.getConnection().addConnectionListener(
@@ -427,15 +440,14 @@ public class XmppManager {
 							.getNotificationPacketListener();
 					connection.addPacketListener(packetListener, packetFilter);
 					xmppManager.runTask();
-				} catch (XMPPException e) {
-					Log.e(LOGTAG, "Failed to login to xmpp server. Caused by: "
-							+ e.getMessage());
 				} catch (Exception e) {
+					Toaster.getInstance().displayToast("登录失败");
+					e.printStackTrace();
 					Log.e(LOGTAG, "Failed to login to xmpp server. Caused by: "
 							+ e.getMessage());
-					xmppManager.startReconnectionThread();
 				}
 			} else {
+				Toaster.getInstance().displayToast("Logged in already");
 				Log.i(LOGTAG, "Logged in already");
 				xmppManager.runTask();
 			}
@@ -501,5 +513,10 @@ public class XmppManager {
 			System.out.println("RosterEntry=");
 		}
 		return Entrieslist;
+	}
+
+	public void reConnect() {
+		// TODO Auto-generated method stub
+
 	}
 }

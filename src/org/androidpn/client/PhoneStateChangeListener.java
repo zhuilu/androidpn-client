@@ -29,10 +29,10 @@ public class PhoneStateChangeListener extends PhoneStateListener {
     private static final String LOGTAG = LogUtil
             .makeLogTag(PhoneStateChangeListener.class);
 
-    private final NotificationService notificationService;
+    private final ConnectService connectionService;
 
-    public PhoneStateChangeListener(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public PhoneStateChangeListener(ConnectService connectionService) {
+        this.connectionService = connectionService;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PhoneStateChangeListener extends PhoneStateListener {
         Log.d(LOGTAG, "Data Connection State = " + getState(state));
         
         if (state == TelephonyManager.DATA_CONNECTED) {
-            notificationService.connect();
+            connectionService.connect();
         }
     }
 

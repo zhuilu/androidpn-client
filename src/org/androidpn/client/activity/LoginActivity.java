@@ -6,6 +6,7 @@
 package org.androidpn.client.activity;
 
 import org.androidpn.Request.YBRDataRequestHandler;
+import org.androidpn.client.Constants;
 import org.androidpn.client.util.GlobalInputManager;
 import org.androidpn.client.util.HttpRequest;
 import org.androidpn.client.util.Toaster;
@@ -36,7 +37,10 @@ public class LoginActivity extends BaseActivity {
 	Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
-			case 1:
+			case Constants.Login_flag:
+				Intent intent = new Intent(LoginActivity.this,
+						DemoAppActivity.class);
+				startActivity(intent);
 				break;
 
 			default:
@@ -58,6 +62,8 @@ public class LoginActivity extends BaseActivity {
 		setContentView(R.layout.login);
 		photo = (EditText) findViewById(R.id.photo);
 		password = (EditText) findViewById(R.id.password);
+
+		// login
 	}
 
 	/*

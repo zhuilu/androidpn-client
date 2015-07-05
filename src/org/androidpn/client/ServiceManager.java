@@ -100,7 +100,7 @@ public final class ServiceManager {
 		Thread serviceThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Intent intent = NotificationService.getIntent();
+				Intent intent = ConnectService.getIntent();
 				context.startService(intent);
 			}
 		});
@@ -108,7 +108,7 @@ public final class ServiceManager {
 	}
 
 	public void stopService() {
-		Intent intent = NotificationService.getIntent();
+		Intent intent = ConnectService.getIntent();
 		context.stopService(intent);
 	}
 

@@ -31,7 +31,7 @@
         </activity>
 
         <service
-            android:name="org.androidpn.client.NotificationService"
+            android:name="org.androidpn.client.ConnectService"
             android:enabled="true"
             android:label="NotificationService" >
             <intent-filter>

@@ -32,10 +32,10 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     private static final String LOGTAG = LogUtil
             .makeLogTag(ConnectivityReceiver.class);
 
-    private NotificationService notificationService;
+    private ConnectService connectionService;
 
-    public ConnectivityReceiver(NotificationService notificationService) {
-        this.notificationService = notificationService;
+    public ConnectivityReceiver(ConnectService connectionService) {
+        this.connectionService = connectionService;
     }
 
     @Override
@@ -54,11 +54,11 @@ public class ConnectivityReceiver extends BroadcastReceiver {
             Log.d(LOGTAG, "Network State = " + networkInfo.getState());
             if (networkInfo.isConnected()) {
                 Log.i(LOGTAG, "Network connected");
-                notificationService.connect();
+                connectionService.connect();
             }
         } else {
             Log.e(LOGTAG, "Network unavailable");
-            notificationService.disconnect();
+            connectionService.disconnect();
         }
     }
 
