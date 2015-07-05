@@ -79,4 +79,5 @@ public class Constants {
 	public static final String ACTION_NOTIFICATION_CLEARED = "org.androidpn.client.NOTIFICATION_CLEARED";
 	public static final int Login_flag = 1;
 	public static final int Login_flag_sueecess = 11;
+	public static final String flag_user = "flag_user";
 }

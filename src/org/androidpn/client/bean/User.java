@@ -1,9 +1,24 @@
 package org.androidpn.client.bean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class User {
 	private String photo;
 	private String password;
 	private boolean flag;
+
+	public User(JSONObject temp) {
+		// TODO Auto-generated constructor stub
+		if (temp != null) {
+			try {
+				if (temp.has("username"))
+					photo = temp.getString("username");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public String getPhoto() {
 		return photo;

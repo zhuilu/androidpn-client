@@ -16,8 +16,13 @@ import com.loopj.android.http.RequestParams;
 
 public class YBRRequest {
 	String m_strRequestTag; // Tag to distinguish the request
-	String m_strUrl = "http://192.168.0.108:8080/androidpn/"; // The URL of the
-																// request
+	String m_strUrl = "http://"
+			+ SysApplicationImpl.getInstance().loadProperties()
+					.getProperty("xmppHost", "127.0.0.1") + ":8080/androidpn/"; // The
+																				// URL
+																				// of
+																				// the
+	// request
 	AsyncHttpClient m_pHttpClient; // The async http client
 	RequestParams m_pParams; // The parameters for request
 	JSONObject m_pResponseJson; // The response json
