@@ -18,7 +18,11 @@
             </intent-filter>
         </activity>
         <activity
+<<<<<<< HEAD
             android:name="org.androidpn.client.activity.UserListActivity"
+=======
+            android:name="org.androidpn.client.activity.DemoAppActivity"
+>>>>>>> origin/master
             android:label="@string/app_name" >
         </activity>
         <activity

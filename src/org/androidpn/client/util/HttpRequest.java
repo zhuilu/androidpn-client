@@ -26,7 +26,10 @@ import org.androidpn.Request.YBRDataRequestHandler;
 import org.androidpn.Request.YBRRequest;
 import org.androidpn.client.PersistentConnectionListener;
 import org.androidpn.client.XmppManager;
+<<<<<<< HEAD
 import org.androidpn.client.bean.User;
+=======
+>>>>>>> origin/master
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketCollector;
@@ -62,8 +65,12 @@ import android.util.Log;
  */
 public class HttpRequest {
 	private int SERVER_PORT = 5222;
+<<<<<<< HEAD
 	private String SERVER_HOST = SysApplicationImpl.getInstance()
 			.loadProperties().getProperty("xmppHost", "127.0.0.1");
+=======
+	private String SERVER_HOST = "127.0.0.1";
+>>>>>>> origin/master
 	private XMPPConnection connection = null;
 	private String SERVER_NAME = "androidpn";
 	private static HttpRequest xmppConnection = new HttpRequest();
@@ -549,8 +556,13 @@ public class HttpRequest {
 	public void configureConnection(ProviderManager pm) {
 	}
 
+<<<<<<< HEAD
 	public static void RequestToPostMessage(User currentUser,
 			YBRDataRequestHandler<JSONObject> argHandler) {
+=======
+	public static void RequestToPostMessage(
+			YBRDataRequestHandler<Integer> argHandler) {
+>>>>>>> origin/master
 
 		// img_url init
 		// Create a request
@@ -564,7 +576,11 @@ public class HttpRequest {
 	}
 
 	public static void RequestPostMessageTo(String userid,
+<<<<<<< HEAD
 			YBRDataRequestHandler<JSONObject> argHandler) {
+=======
+			YBRDataRequestHandler<Integer> argHandler) {
+>>>>>>> origin/master
 
 		// img_url init
 		// Create a request

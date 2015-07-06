@@ -39,7 +39,11 @@ public class LoginActivity extends BaseActivity {
 			switch (msg.what) {
 			case Constants.Login_flag:
 				Intent intent = new Intent(LoginActivity.this,
+<<<<<<< HEAD
 						UserListActivity.class);
+=======
+						DemoAppActivity.class);
+>>>>>>> origin/master
 				startActivity(intent);
 				break;
 
