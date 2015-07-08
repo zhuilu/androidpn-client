@@ -7,30 +7,21 @@ package org.androidpn.client.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.androidpn.Request.YBRDataRequestHandler;
 import org.androidpn.Request.YBRRequest;
 import org.androidpn.client.PersistentConnectionListener;
-import org.androidpn.client.XmppManager;
-<<<<<<< HEAD
 import org.androidpn.client.bean.User;
-=======
->>>>>>> origin/master
-import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.PacketCollector;
 import org.jivesoftware.smack.Roster;
@@ -44,7 +35,6 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.PacketIDFilter;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.IQ;
-import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Registration;
@@ -52,8 +42,6 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smack.util.StringUtils;
 import org.json.JSONObject;
 
-import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard.Row;
 import android.os.Handler;
 import android.util.Log;
 
@@ -65,12 +53,10 @@ import android.util.Log;
  */
 public class HttpRequest {
 	private int SERVER_PORT = 5222;
-<<<<<<< HEAD
+
 	private String SERVER_HOST = SysApplicationImpl.getInstance()
 			.loadProperties().getProperty("xmppHost", "127.0.0.1");
-=======
-	private String SERVER_HOST = "127.0.0.1";
->>>>>>> origin/master
+
 	private XMPPConnection connection = null;
 	private String SERVER_NAME = "androidpn";
 	private static HttpRequest xmppConnection = new HttpRequest();
@@ -556,13 +542,8 @@ public class HttpRequest {
 	public void configureConnection(ProviderManager pm) {
 	}
 
-<<<<<<< HEAD
 	public static void RequestToPostMessage(User currentUser,
 			YBRDataRequestHandler<JSONObject> argHandler) {
-=======
-	public static void RequestToPostMessage(
-			YBRDataRequestHandler<Integer> argHandler) {
->>>>>>> origin/master
 
 		// img_url init
 		// Create a request
@@ -576,11 +557,8 @@ public class HttpRequest {
 	}
 
 	public static void RequestPostMessageTo(String userid,
-<<<<<<< HEAD
-			YBRDataRequestHandler<JSONObject> argHandler) {
-=======
-			YBRDataRequestHandler<Integer> argHandler) {
->>>>>>> origin/master
+
+	YBRDataRequestHandler<JSONObject> argHandler) {
 
 		// img_url init
 		// Create a request

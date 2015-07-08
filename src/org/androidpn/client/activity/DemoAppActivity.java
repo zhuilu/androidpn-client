@@ -56,7 +56,7 @@ public class DemoAppActivity extends Activity {
 			public void onClick(View view) {
 				// ServiceManager.viewNotificationSettings(DemoAppActivity.this);
 				HttpRequest
-						.RequestToPostMessage(new YBRDataRequestHandler<Integer>() {
+						.RequestToPostMessage(new YBRDataRequestHandler<JSONObject>() {
 
 							@Override
 							public void OnSuccess(int statusCode,
