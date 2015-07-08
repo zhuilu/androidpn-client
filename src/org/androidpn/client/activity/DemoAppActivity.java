@@ -54,33 +54,6 @@ public class DemoAppActivity extends Activity {
 		listview = (ListView) findViewById(R.id.listview);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				// ServiceManager.viewNotificationSettings(DemoAppActivity.this);
-				HttpRequest
-						.RequestToPostMessage(new YBRDataRequestHandler<JSONObject>() {
-
-							@Override
-							public void OnSuccess(int statusCode,
-									Header[] headers, JSONObject response) {
-								System.out.println("OnSuccess");
-								try {
-									HttpRequest.RequestPostMessageTo(
-											(String) (response
-													.getJSONArray("data")
-													.get(1)), null);
-								} catch (JSONException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-
-							@Override
-							public void OnFailure(int statusCode,
-									Header[] headers, Throwable throwable,
-									JSONObject errorResponse) {
-								// TODO Auto-generated method stub
-								System.out.println("OnFailure");
-							}
-						});
 			}
 		});
 
